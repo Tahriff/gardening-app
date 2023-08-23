@@ -10,9 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_19_092242) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_23_092401) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "parcels", force: :cascade do |t|
+    t.float "size_sqm", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "parcels_species", id: false, force: :cascade do |t|
+    t.bigint "parcel_id", null: false
+    t.bigint "species_id", null: false
+    t.float "sqm_size", default: 0.0
+    t.index ["parcel_id", "species_id"], name: "index_parcels_species_on_parcel_id_and_species_id"
+    t.index ["species_id", "parcel_id"], name: "index_parcels_species_on_species_id_and_parcel_id"
+  end
 
   create_table "species", force: :cascade do |t|
     t.string "name"
